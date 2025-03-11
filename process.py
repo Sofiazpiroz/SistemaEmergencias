@@ -1,24 +1,29 @@
-
-import simpy 
-from process import generar_incidentes
-from entities import Ambulancia, CamionBomberos, PatrullaPolicia
+import simpy
+import random
+from entities import Incidente, Ambulancia, CamionBomberos, PatrullaPolicia
 
 '''
-Inicialización del entorno de simulación de emergencias
+Simulación de generación de incidentes y asignación de recursos
 '''
 
-if __name__== "_main_":
-    env = simpy.Environment()
+def generar_incidentes(env, incidentes, recursos):
+    incidente_id = 1
+    while True:
+        # Crear un nuevo incidente
+        tipo_incidente = random.choice(["Incendio", "Accidente", "Robo"])
+        ubicacion = random.choice(["Centro", "Zona Norte", "Zona Sur"])
+        prioridad = random.randint(1, 3)  # 1 = más urgente, 3 = menos urgente
+        
+        incidente = Incidente(env, incidente_id, tipo_incidente, ubicacion, prioridad)
+        print(f"[{env.now}] {incidente}")
 
-    # Crear recursos disponibles en la ciudad
-    recursos = [
-        Ambulancia(env, "Centro"),
-        CamionBomberos(env, "Zona Norte"),
-        PatrullaPolicia(env, "Zona Sur")
-    ]
+        # Buscar un recurso disponible
+        for recurso in recursos:
+            if recurso.disponible:
+                env.process(recurso.asignar(incidente))
+                break
+        else:
+            print(f"[{env.now}] No hay recursos disponibles, incidente en espera.")
 
-    # Iniciar el proceso de generación de incidentes
-    env.process(generar_incidentes(env, [], recursos))
-
-    # Ejecutar la simulación por 30 unidades de tiempo
-    env.run(until=30)
+        incidente_id += 1
+        yield env.timeout(random.randint(3, 6))  # Tiempo entre incidentes
