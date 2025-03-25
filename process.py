@@ -9,7 +9,7 @@ distritos_madrid = ["Centro", "Arganzuela", "Retiro", "Salamanca", "Chamartín",
                     "Usera", "Puente de Vallecas", "Moratalaz", "Ciudad Lineal", "Hortaleza",
                     "Villaverde", "Villa de Vallecas", "Vicálvaro", "San Blas", "Barajas" ]
 
-def generar_incidentes(env, incidente, recursos):
+def generar_incidentes(env,recursos):
 
     incidente_id = 1
     while True:
@@ -25,19 +25,19 @@ def generar_incidentes(env, incidente, recursos):
 
         if tipo_incidente == "Incendio":
             for recurso in recursos:
-                if isinstance(recurso, CamionBomberos) and recurso.disponible:
+                if type(recurso) == CamionBomberos and recurso.disponible:
                     recurso_asignado = recurso
                     break
 
         elif tipo_incidente == "Accidente":
             for recurso in recursos:
-                if isinstance(recurso, Ambulancia) and recurso.disponible:
+                if type(recurso) == Ambulancia and recurso.disponible:
                     recurso_asignado = recurso
                     break
 
         elif tipo_incidente == "Robo":
             for recurso in recursos:
-                if isinstance(recurso, PatrullaPolicia) and recurso.disponible:
+                if type(recurso) == PatrullaPolicia and recurso.disponible:
                     recurso_asignado = recurso
                     break
         
@@ -46,21 +46,23 @@ def generar_incidentes(env, incidente, recursos):
             print(f"[{env.now}] U00002705 {recurso_asignado.tipo} asignado a {tipo_incidente} en {ubicacion}")
             env.process(recurso_asignado.asignar(tipo_incidente))  # Simulación de asignación
         else:
-            print(f"[{env.now}] U0000274C No hay recursos disponibles para {tipo_incidente}, incidente en espera.")
+            print(f"[{env.now}] U0000274C No hay recursos disponibles para {tipo_incidente}, incidente en espera...")
 
-        # Esperar un tiempo antes de generar otro incidente
+        # Esperamos un tiempo antes de generar otro incidente
         yield env.timeout(random.randint(3, 6))  # Simula tiempo entre incidentes
 
-# Inicialización del entorno de simulación
+# Inicializamos el entorno de simulación
 env = simpy.Environment()
 
 # Crear recursos aleatoriamente distribuidos en los distritos
-recursos = [
-    Ambulancia(env, random.choice(distritos_madrid)) for _ in range(5)] + [ 
-        CamionBomberos(env, random.choice(distritos_madrid)) for _ in range(5)
-] + [
-    PatrullaPolicia(env, random.choice(distritos_madrid)) for _ in range(5)
-]
+recursos = []
+for i in range(5):  
+    recursos.append(Ambulancia(env, random.choice(distritos_madrid)))  
+for i in range(5):  
+    recursos.append(CamionBomberos(env, random.choice(distritos_madrid)))  
+for i in range(5):  
+    recursos.append(PatrullaPolicia(env, random.choice(distritos_madrid))) 
+
 
 # Iniciar la simulación
 env.process(generar_incidentes(env,recursos))
