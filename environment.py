@@ -1,24 +1,21 @@
-
 import simpy
 from process import generar_incidentes
 from entities import Ambulancia, CamionBomberos, PatrullaPolicia
 
-'''
-Inicialización del entorno de simulación de emergencias
-'''
+'''Main'''
 
-if __name__ == "_main_":
+if __name__ == "__main__":
     env = simpy.Environment()
 
-    # Crear recursos disponibles en la ciudad
+    # Definimos los recursos necesarios para atender las emergencias
     recursos = [
-        Ambulancia(env, "Centro"),
-        CamionBomberos(env, "Zona Norte"),
-        PatrullaPolicia(env, "Zona Sur")
+        Ambulancia, CamionBomberos, PatrullaPolicia
     ]
 
-    # Iniciar el proceso de generación de incidentes
+    # Generamos los incidentes
     env.process(generar_incidentes(env, [], recursos))
 
-    # Ejecutar la simulación por 30 unidades de tiempo
+    # Ejecutamos la simulación por 30 unidades de tiempo
     env.run(until=30)
+
+    
