@@ -1,4 +1,4 @@
-mport simpy
+import simpy
 from process import generar_incidentes
 from entities import Ambulancia, CamionBomberos, PatrullaPolicia
 
