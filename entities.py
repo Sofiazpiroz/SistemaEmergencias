@@ -1,5 +1,5 @@
 
-iimport random
+import random
 
 '''Clases'''
 
@@ -18,10 +18,12 @@ class Incidente:
 
 
 class Recurso(Incidente):
-    def __init__(self, env, tipo, ubicacion):
+    def __init__(self, env, id_incidente, tipo, ubicacion, prioridad):
         self.env = env
-        self.tipo = tipo
+        self.id_incidente = id_incidente
+        self.tipo= tipo
         self.ubicacion = ubicacion
+        self.prioridad = prioridad
         self.disponible = True  # Estado del recurso
 
     def asignar(self, incidente):
@@ -38,16 +40,17 @@ class Recurso(Incidente):
 
 # Subclases de la clase "Recurso"
 class Ambulancia(Recurso):
-    def __init__(self, env, ubicacion):
-        super().__init__(env, "Ambulancia", ubicacion)
+    def __init__(self, env,id_incidente, ubicacion, prioridad ):
+        super().__init__(env, id_incidente, "ambulancia", ubicacion, prioridad)
 
 class CamionBomberos(Recurso):
-    def __init__(self, env, ubicacion):
-        super().__init__(env, "Camión de Bomberos", ubicacion)
+    def __init__(self, env,id_incidente, ubicacion, prioridad):
+        super().__init__(env,id_incidente, "Camión de Bomberos", ubicacion,prioridad)
 
 class PatrullaPolicia(Recurso):
-    def __init__(self, env, ubicacion):
-        super().__init__(env, "Patrulla de Policía", ubicacion)
+    def __init__(self, env, id_incidente, ubicacion,prioridad):
+        super().__init__(env, id_incidente,"Patrulla de Policía", ubicacion,prioridad)
+
 
 class PatrullaPolicia(Recurso):
     def _init_(self, env, ubicacion):
