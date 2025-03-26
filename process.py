@@ -7,9 +7,11 @@ from entities import Incidente, Ambulancia, CamionBomberos, PatrullaPolicia
 distritos_madrid = ["Centro", "Arganzuela", "Retiro", "Salamanca", "Chamartín", "Tetuán", 
                     "Chamberí", "Fuencarral-El Pardo", "Moncloa", "Latina", "Carabanchel",
                     "Usera", "Puente de Vallecas", "Moratalaz", "Ciudad Lineal", "Hortaleza",
-                    "Villaverde", "Villa de Vallecas", "Vicálvaro", "San Blas", "Barajas" ]
+                    "Villaverde", "Villa de Vallecas", "Vicálvaro", "San Blas", "Barajas"]
 
-def generar_incidentes(env, recursos):
+limite_recursos = {distrito: {"Ambulancia": 3, "Bomberos": 3, "Policia": 3} for distrito in distritos_madrid}
+
+def generar_incidentes(env, recursos, limite_recursos):
     id_incidente = 0
 
     while True:
@@ -24,21 +26,25 @@ def generar_incidentes(env, recursos):
         id_incidente += 1
 
         recurso_asignado = None
+        tipo_recurso = None
 
+        # Determinar el tipo de recurso necesario
         if tipo_incidente == "Incendio":
-            for recurso in recursos:
-                if isinstance(recurso, CamionBomberos) and recurso.disponible:
-                    recurso_asignado = recurso
-                    break
+            tipo_recurso = "Bomberos"
         elif tipo_incidente == "Accidente":
-            for recurso in recursos:
-                if isinstance(recurso, Ambulancia) and recurso.disponible:
-                    recurso_asignado = recurso
-                    break
+            tipo_recurso = "Ambulancia"
         elif tipo_incidente == "Robo":
+            tipo_recurso = "Policia"
+
+        # Verificar límites de recursos por distrito primero
+        if limite_recursos[ubicacion][tipo_recurso] > 0:
+            # Buscar recurso disponible del tipo correcto y en la ubicación correcta
             for recurso in recursos:
-                if isinstance(recurso, PatrullaPolicia) and recurso.disponible:
+                if ((isinstance(recurso, CamionBomberos) and tipo_incidente == "Incendio" and recurso.disponible and recurso.ubicacion == ubicacion) or
+                    (isinstance(recurso, Ambulancia) and tipo_incidente == "Accidente" and recurso.disponible and recurso.ubicacion == ubicacion) or
+                    (isinstance(recurso, PatrullaPolicia) and tipo_incidente == "Robo" and recurso.disponible and recurso.ubicacion == ubicacion)):
                     recurso_asignado = recurso
+                    limite_recursos[ubicacion][tipo_recurso] -= 1
                     break
 
         if recurso_asignado:
@@ -55,27 +61,20 @@ env = simpy.Environment()
 
 # Crear recursos aleatoriamente distribuidos en los distritos
 recursos = []
-for i in range(5): 
-    id_incidente = i
-    tipo = "ambulancia"
-    prioridad = random.randint(1, 3)
-    recursos.append(Ambulancia(env, id_incidente, random.choice(distritos_madrid), prioridad))
- 
-for i in range(5):
-    id_incidente = i + 5
-    tipo = "bomberos"
-    prioridad = random.randint(1, 3)
-    recursos.append(CamionBomberos(env, id_incidente,  random.choice(distritos_madrid), prioridad))
+for i in range(3):  # 3 ambulancias por distrito (según límite)
+    for distrito in distritos_madrid:
+        recursos.append(Ambulancia(env, len(recursos), distrito, random.randint(1, 5)))
 
-for i in range(5):
-    id_incidente = i + 10
-    tipo = "policía"
-    prioridad = random.randint(1, 3)
-    recursos.append(PatrullaPolicia(env, id_incidente, random.choice(distritos_madrid), prioridad))
+for i in range(3):  # 3 camiones de bomberos por distrito
+    for distrito in distritos_madrid:
+        recursos.append(CamionBomberos(env, len(recursos), distrito, random.randint(1, 5)))
 
+for i in range(3):  # 3 patrullas de policía por distrito
+    for distrito in distritos_madrid:
+        recursos.append(PatrullaPolicia(env, len(recursos), distrito, random.randint(1, 5)))
 
 # Iniciar la simulación
-env.process(generar_incidentes(env,recursos))
+env.process(generar_incidentes(env, recursos, limite_recursos))
 
-# Ejecutar la simulación por 30 unidades de tiempo
-env.run(until=30)
+# Ejecutar la simulación por 1000 unidades de tiempo
+env.run(until=400)
