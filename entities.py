@@ -52,6 +52,3 @@ class PatrullaPolicia(Recurso):
         super().__init__(env, id_incidente,"Patrulla de Policía", ubicacion,prioridad)
 
 
-class PatrullaPolicia(Recurso):
-    def _init_(self, env, ubicacion):
-        super()._init_(env, "Patrulla de Policía", ubicacion)
