@@ -6,3 +6,6 @@ A MEJORAR (En el código):
 - Crear concatenaciones
 - Generar un rango de incidentes mas amplio
 - Que el tiempo que tarda en atender el incidente no sea secuencial
+
+PARA AÑADIR COMPLEJIDAD:
+- Si no hay recurso disponible que coja de otro distrito si tiene un nivel de prioridad de 4 o 5
