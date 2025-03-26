@@ -9,59 +9,69 @@ distritos_madrid = ["Centro", "Arganzuela", "Retiro", "Salamanca", "Chamartín",
                     "Usera", "Puente de Vallecas", "Moratalaz", "Ciudad Lineal", "Hortaleza",
                     "Villaverde", "Villa de Vallecas", "Vicálvaro", "San Blas", "Barajas" ]
 
-def generar_incidentes(env,recursos):
+def generar_incidentes(env, recursos):
+    id_incidente = 0
 
-    incidente_id = 1
     while True:
-        # Creamos un nuevo incidente
         tipo_incidente = random.choice(["Incendio", "Accidente", "Robo"])
         ubicacion = random.choice(distritos_madrid)
-        prioridad = random.randint(1, 5)  # 1 = menos urgente , 5 = más urgente
-        
-        print(f"\n[{env.now}] U0001F6A8 Nuevo incidente: {tipo_incidente} en {ubicacion} (Prioridad {prioridad})")
+        prioridad = random.randint(1, 5)
 
-        # Buscamos un recurso adecuado y disponible
+        print(f"\n[{env.now}] 🚨 Nuevo incidente: {tipo_incidente} en {ubicacion} (Prioridad {prioridad})")
+
+        # Crear el objeto Incidente correctamente
+        incidente = Incidente(env, id_incidente, tipo_incidente, ubicacion, prioridad)
+        id_incidente += 1
+
         recurso_asignado = None
 
         if tipo_incidente == "Incendio":
             for recurso in recursos:
-                if type(recurso) == CamionBomberos and recurso.disponible:
+                if isinstance(recurso, CamionBomberos) and recurso.disponible:
                     recurso_asignado = recurso
                     break
-
         elif tipo_incidente == "Accidente":
             for recurso in recursos:
-                if type(recurso) == Ambulancia and recurso.disponible:
+                if isinstance(recurso, Ambulancia) and recurso.disponible:
                     recurso_asignado = recurso
                     break
-
         elif tipo_incidente == "Robo":
             for recurso in recursos:
-                if type(recurso) == PatrullaPolicia and recurso.disponible:
+                if isinstance(recurso, PatrullaPolicia) and recurso.disponible:
                     recurso_asignado = recurso
                     break
-        
-        # Asignamos un recurso si hay disponibilidad
-        if recurso_asignado:
-            print(f"[{env.now}] U00002705 {recurso_asignado.tipo} asignado a {tipo_incidente} en {ubicacion}")
-            env.process(recurso_asignado.asignar(tipo_incidente))  # Simulación de asignación
-        else:
-            print(f"[{env.now}] U0000274C No hay recursos disponibles para {tipo_incidente}, incidente en espera...")
 
-        # Esperamos un tiempo antes de generar otro incidente
-        yield env.timeout(random.randint(3, 6))  # Simula tiempo entre incidentes
+        if recurso_asignado:
+            print(f"[{env.now}] {recurso_asignado.tipo} asignado a {tipo_incidente} en {ubicacion}")
+            env.process(recurso_asignado.asignar(incidente))
+        else:
+            print(f"[{env.now}] No hay recursos disponibles para {tipo_incidente}, incidente en espera...")
+
+        yield env.timeout(random.randint(3, 6))
+
 
 # Inicializamos el entorno de simulación
 env = simpy.Environment()
 
 # Crear recursos aleatoriamente distribuidos en los distritos
 recursos = []
-for i in range(5):  
-    recursos.append(Ambulancia(env, random.choice(distritos_madrid)))  
-for i in range(5):  
-    recursos.append(CamionBomberos(env, random.choice(distritos_madrid)))  
-for i in range(5):  
-    recursos.append(PatrullaPolicia(env, random.choice(distritos_madrid))) 
+for i in range(5): 
+    id_incidente = i
+    tipo = "ambulancia"
+    prioridad = random.randint(1, 3)
+    recursos.append(Ambulancia(env, id_incidente, random.choice(distritos_madrid), prioridad))
+ 
+for i in range(5):
+    id_incidente = i + 5
+    tipo = "bomberos"
+    prioridad = random.randint(1, 3)
+    recursos.append(CamionBomberos(env, id_incidente,  random.choice(distritos_madrid), prioridad))
+
+for i in range(5):
+    id_incidente = i + 10
+    tipo = "policía"
+    prioridad = random.randint(1, 3)
+    recursos.append(PatrullaPolicia(env, id_incidente, random.choice(distritos_madrid), prioridad))
 
 
 # Iniciar la simulación
