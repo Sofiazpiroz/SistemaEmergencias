@@ -9,10 +9,12 @@ distritos_madrid = ["Centro", "Arganzuela", "Retiro", "Salamanca", "Chamartín",
                     "Usera", "Puente de Vallecas", "Moratalaz", "Ciudad Lineal", "Hortaleza",
                     "Villaverde", "Villa de Vallecas", "Vicálvaro", "San Blas", "Barajas"]
 
+# Límite de recursos por distrito (3 de cada tipo por distrito)
 limite_recursos = {distrito: {"Ambulancia": 3, "Bomberos": 3, "Policia": 3} for distrito in distritos_madrid}
 
 def generar_incidentes(env, recursos, limite_recursos):
-    id_incidente = 0
+
+    id_incidente=0
 
     while True:
         tipo_incidente = random.choice(["Incendio", "Accidente", "Robo"])
@@ -21,7 +23,7 @@ def generar_incidentes(env, recursos, limite_recursos):
 
         print(f"\n[{env.now}] 🚨 Nuevo incidente: {tipo_incidente} en {ubicacion} (Prioridad {prioridad})")
 
-        # Crear el objeto Incidente correctamente
+        # Crear el objeto Incidente
         incidente = Incidente(env, id_incidente, tipo_incidente, ubicacion, prioridad)
         id_incidente += 1
 
@@ -36,24 +38,27 @@ def generar_incidentes(env, recursos, limite_recursos):
         elif tipo_incidente == "Robo":
             tipo_recurso = "Policia"
 
-        # Verificar límites de recursos por distrito primero
-        if limite_recursos[ubicacion][tipo_recurso] > 0:
-            # Buscar recurso disponible del tipo correcto y en la ubicación correcta
-            for recurso in recursos:
-                if ((isinstance(recurso, CamionBomberos) and tipo_incidente == "Incendio" and recurso.disponible and recurso.ubicacion == ubicacion) or
-                    (isinstance(recurso, Ambulancia) and tipo_incidente == "Accidente" and recurso.disponible and recurso.ubicacion == ubicacion) or
-                    (isinstance(recurso, PatrullaPolicia) and tipo_incidente == "Robo" and recurso.disponible and recurso.ubicacion == ubicacion)):
-                    recurso_asignado = recurso
-                    limite_recursos[ubicacion][tipo_recurso] -= 1
-                    break
+
+        # Buscar recurso disponible del tipo correcto y en la ubicación correcta
+        for recurso in recursos:
+            if isinstance(recurso, CamionBomberos) and tipo_incidente == "Incendio" and recurso.disponible:
+                recurso_asignado = recurso
+                break
+            elif isinstance(recurso, Ambulancia) and tipo_incidente == "Accidente" and recurso.disponible:
+                recurso_asignado = recurso
+                break
+            elif isinstance(recurso, PatrullaPolicia) and tipo_incidente == "Robo" and recurso.disponible:
+                break
 
         if recurso_asignado:
+            limite_recursos[ubicacion][tipo_recurso] -= 1
             print(f"[{env.now}] {recurso_asignado.tipo} asignado a {tipo_incidente} en {ubicacion}")
             env.process(recurso_asignado.asignar(incidente))
         else:
-            print(f"[{env.now}] No hay recursos disponibles para {tipo_incidente}, incidente en espera...")
+            print(f"[{env.now}] No hay recursos disponibles para {tipo_incidente} en {ubicacion}, incidente en espera...")
+            yield env.timeout(random.randint(3, 6))  # Esperamos antes de volver a intentar
 
-        yield env.timeout(random.randint(3, 6))
+        yield env.timeout(random.randint(3, 6)) 
 
 
 # Inicializamos el entorno de simulación
@@ -76,5 +81,5 @@ for i in range(3):  # 3 patrullas de policía por distrito
 # Iniciar la simulación
 env.process(generar_incidentes(env, recursos, limite_recursos))
 
-# Ejecutar la simulación por 1000 unidades de tiempo
+# Ejecutar la simulación por 400 unidades de tiempo
 env.run(until=400)
