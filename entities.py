@@ -41,7 +41,7 @@ class Recurso(Incidente):
 # Subclases de la clase "Recurso"
 class Ambulancia(Recurso):
     def __init__(self, env,id_incidente, ubicacion, prioridad ):
-        super().__init__(env, id_incidente, "ambulancia", ubicacion, prioridad)
+        super().__init__(env, id_incidente, "Ambulancia", ubicacion, prioridad)
 
 class CamionBomberos(Recurso):
     def __init__(self, env,id_incidente, ubicacion, prioridad):
