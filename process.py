@@ -3,7 +3,10 @@ import random
 from entities import Incidente, Ambulancia, CamionBomberos, PatrullaPolicia
 
 # Configuración inicial
-distritos_madrid = ["Centro", "Arganzuela", "Retiro", "Salamanca", "Chamartín", "Tetuán"]
+distritos_madrid = ["Centro", "Arganzuela", "Retiro", "Salamanca", "Chamartín", "Tetuán", 
+                    "Chamberí", "Fuencarral-El Pardo", "Moncloa", "Latina", "Carabanchel",
+                    "Usera", "Puente de Vallecas", "Moratalaz", "Ciudad Lineal", "Hortaleza",
+                    "Villaverde", "Villa de Vallecas", "Vicálvaro", "San Blas", "Barajas" ]
 tipos_recursos = {
     "Incendio": ("Bomberos", CamionBomberos),
     "Accidente": ("Ambulancia", Ambulancia),
@@ -66,7 +69,7 @@ def procesar_incidentes(env, recursos, limite_recursos):
                 env.process(gestionar_asignacion(env, recurso_asignado, incidente, tipo_recurso, limite_recursos, recursos))
             else:
                 print(f"\n🚨 Incidente: {tipo} en {incidente.ubicacion} (Prioridad {incidente.prioridad})")
-                print(f"⚠️ En espera. No hay recursos disponibles ({tipo_recurso}) en {incidente.ubicacion}")
+                print(f"En espera. No hay recursos disponibles ({tipo_recurso}) en {incidente.ubicacion}")
                 lista_incidentes_esperando.append(incidente)
 
 def gestionar_asignacion(env, recurso, incidente, tipo_recurso, limite_recursos, recursos):
