@@ -1,7 +1,5 @@
 
-import random
-
-'''Clases'''
+  import random
 
 class Incidente:
     def __init__(self, env, id_incidente, tipo, ubicacion, prioridad):
@@ -10,45 +8,42 @@ class Incidente:
         self.tipo = tipo
         self.ubicacion = ubicacion
         self.prioridad = prioridad
-        self.tiempo_resolucion = random.randint(3, 10)  # Tiempo aleatorio
+        self.tiempo_creacion = None
 
-
-    def __str__(self):
-        return f"Incidente {self.id_incidente}: {self.tipo} en {self.ubicacion} (Prioridad {self.prioridad})"
-
-
-class Recurso(Incidente):
-    def __init__(self, env, id_incidente, tipo, ubicacion, prioridad):
+class Recurso:
+    def __init__(self, env, id_recurso, ubicacion, prioridad):
         self.env = env
-        self.id_incidente = id_incidente
-        self.tipo= tipo
+        self.id = id_recurso
         self.ubicacion = ubicacion
         self.prioridad = prioridad
-        self.disponible = True  # Estado del recurso
+        self.disponible = True
 
     def asignar(self, incidente):
-        if self.disponible:
-            self.disponible = False
-            print(f"{self.tipo} asignado a {incidente} en {self.env.now} minutos")
-            yield self.env.timeout(incidente.tiempo_resolucion)  # Tiempo de atención al cliente
-            self.disponible = True
-            print(f"{self.tipo} disponible nuevamente en {self.env.now} minutos")
+        # Simulación de tiempos realistas y variados por tipo
+        if incidente.tipo == "Incendio":
+            tiempo_atencion = random.uniform(10, 20)  # más largo
+        elif incidente.tipo == "Accidente":
+            tiempo_atencion = random.uniform(5, 15)
+        elif incidente.tipo == "Robo":
+            tiempo_atencion = random.uniform(4, 10)
+        else:
+            tiempo_atencion = random.uniform(5, 12)
 
-    def __str__(self):
-        return f"{self.tipo} en {self.ubicacion}"
+        yield self.env.timeout(tiempo_atencion)
 
-
-# Subclases de la clase "Recurso"
 class Ambulancia(Recurso):
-    def __init__(self, env,id_incidente, ubicacion, prioridad ):
-        super().__init__(env, id_incidente, "Ambulancia", ubicacion, prioridad)
+    def __init__(self, env, id_recurso, ubicacion, prioridad):
+        super().__init__(env, id_recurso, ubicacion, prioridad)
+        self.tipo = "Ambulancia"
 
 class CamionBomberos(Recurso):
-    def __init__(self, env,id_incidente, ubicacion, prioridad):
-        super().__init__(env,id_incidente, "Camión de Bomberos", ubicacion,prioridad)
+    def __init__(self, env, id_recurso, ubicacion, prioridad):
+        super().__init__(env, id_recurso, ubicacion, prioridad)
+        self.tipo = "Camión de Bomberos"
 
 class PatrullaPolicia(Recurso):
-    def __init__(self, env, id_incidente, ubicacion,prioridad):
-        super().__init__(env, id_incidente,"Patrulla de Policía", ubicacion,prioridad)
+    def __init__(self, env, id_recurso, ubicacion, prioridad):
+        super().__init__(env, id_recurso, ubicacion, prioridad)
+        self.tipo = "Patrulla de Policía"
 
 
