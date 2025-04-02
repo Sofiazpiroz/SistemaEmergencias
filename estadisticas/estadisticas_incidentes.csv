@@ -1,0 +1,71 @@
+ID Incidente,Tipo,Prioridad,Ubicación,Tiempo Espera,Tiempo Resolución,Recurso Asignado
+1,Incendio,1,San Blas,0,2,Camion de Bomberos
+2,Accidente,1,Chamberí,0,3,Ambulancia
+3,Incendio,1,Moratalaz,0,2,Camion de Bomberos
+4,Accidente,2,Ciudad Lineal,0,3,Ambulancia
+5,Accidente,2,Chamartín,1,4,Ambulancia
+7,Incendio,2,Puente de Vallecas,0,2,Camion de Bomberos
+6,Accidente,3,Moratalaz,2,5,Ambulancia
+8,Incendio,3,Usera,0,2,Camion de Bomberos
+9,Incendio,1,Latina,0,2,Camion de Bomberos
+10,Incendio,2,Retiro,0,2,Camion de Bomberos
+11,Incendio,2,Villaverde,1,3,Camion de Bomberos
+13,Incendio,1,Carabanchel,0,2,Camion de Bomberos
+12,Robo,3,Retiro,0,4,Patrulla de Policia
+14,Accidente,1,Salamanca,0,3,Ambulancia
+15,Incendio,2,Carabanchel,0,2,Camion de Bomberos
+16,Robo,3,Carabanchel,0,4,Patrulla de Policia
+17,Accidente,1,Ciudad Lineal,0,3,Ambulancia
+18,Robo,2,Villa de Vallecas,1,5,Patrulla de Policia
+21,Accidente,2,Ciudad Lineal,0,3,Ambulancia
+22,Incendio,3,Centro,0,2,Camion de Bomberos
+20,Robo,2,Villaverde,1,5,Patrulla de Policia
+23,Accidente,3,Moratalaz,1,4,Ambulancia
+25,Incendio,3,Vicálvaro,0,2,Camion de Bomberos
+19,Robo,3,Moratalaz,7,11,Patrulla de Policia
+24,Accidente,1,Fuencarral-El Pardo,2,5,Ambulancia
+26,Robo,2,Puente de Vallecas,1,5,Patrulla de Policia
+27,Accidente,1,Tetuán,0,3,Ambulancia
+28,Robo,3,Salamanca,1,5,Patrulla de Policia
+29,Accidente,1,Chamartín,0,3,Ambulancia
+30,Incendio,1,Salamanca,0,2,Camion de Bomberos
+31,Incendio,1,Latina,0,2,Camion de Bomberos
+32,Robo,1,Villa de Vallecas,0,4,Patrulla de Policia
+33,Incendio,1,Ciudad Lineal,0,2,Camion de Bomberos
+34,Robo,3,Moratalaz,0,4,Patrulla de Policia
+35,Accidente,2,Moncloa,0,3,Ambulancia
+36,Incendio,2,Hortaleza,0,2,Camion de Bomberos
+37,Robo,3,Usera,0,4,Patrulla de Policia
+38,Robo,2,Salamanca,2,6,Patrulla de Policia
+41,Accidente,1,Moncloa,0,3,Ambulancia
+43,Incendio,2,Tetuán,0,2,Camion de Bomberos
+39,Robo,2,Fuencarral-El Pardo,4,8,Patrulla de Policia
+42,Accidente,2,Hortaleza,2,5,Ambulancia
+45,Incendio,2,Salamanca,0,2,Camion de Bomberos
+40,Robo,2,Hortaleza,7,11,Patrulla de Policia
+47,Accidente,2,Villaverde,0,3,Ambulancia
+48,Incendio,2,Hortaleza,0,2,Camion de Bomberos
+44,Robo,2,Salamanca,6,10,Patrulla de Policia
+49,Accidente,3,Ciudad Lineal,0,3,Ambulancia
+46,Robo,3,Chamberí,7,11,Patrulla de Policia
+50,Accidente,2,Retiro,1,4,Ambulancia
+52,Incendio,2,Villa de Vallecas,0,2,Camion de Bomberos
+51,Robo,2,Villa de Vallecas,3,7,Patrulla de Policia
+53,Accidente,2,Barajas,0,3,Ambulancia
+54,Robo,3,Retiro,1,5,Patrulla de Policia
+56,Accidente,3,Puente de Vallecas,0,3,Ambulancia
+57,Incendio,1,Retiro,0,2,Camion de Bomberos
+55,Robo,1,Villaverde,3,7,Patrulla de Policia
+58,Accidente,3,Vicálvaro,1,4,Ambulancia
+61,Incendio,2,Barajas,0,2,Camion de Bomberos
+59,Robo,3,Latina,1,5,Patrulla de Policia
+63,Accidente,1,Fuencarral-El Pardo,0,3,Ambulancia
+62,Robo,1,Salamanca,2,6,Patrulla de Policia
+64,Incendio,3,Tetuán,0,2,Camion de Bomberos
+60,Robo,3,Moncloa,8,12,Patrulla de Policia
+67,Accidente,2,Barajas,0,3,Ambulancia
+65,Robo,3,Fuencarral-El Pardo,4,8,Patrulla de Policia
+70,Incendio,3,Chamartín,0,2,Camion de Bomberos
+68,Robo,2,Retiro,2,6,Patrulla de Policia
+71,Incendio,1,Vicálvaro,0,2,Camion de Bomberos
+69,Robo,2,Latina,4,8,Patrulla de Policia
