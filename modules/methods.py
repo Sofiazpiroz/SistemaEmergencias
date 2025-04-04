@@ -67,7 +67,7 @@ def atender_incidente(env, recurso, incidente, tiempo_espera):
 
     print(f"[{env.now}]: ✅ Incidente {incidente.id} resuelto en {env.now - incidente.tiempo_creacion} unidades de tiempo")
     
-    # Guardar datos en estadísticas
+    # Guardar los datos del incidente en las estadísticas
     estadisticas.agregar_datos(
         id_incidente=incidente.id,
         tipo=incidente.tipo,
