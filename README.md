@@ -1,4 +1,9 @@
 
-PARA AÑADIR COMPLEJIDAD (2º Parte):
-- Si no hay recurso disponible que coja de otro distrito si tiene un nivel de prioridad de 1 o 2
-- Que se generen varios incidentes a la vez en una misma zona y que seleccione en funcion de la prioridad(edu)
+A mejorar:
+
+- Asignar mas de un recurso por distrito.
+- Algortimo de recorrido: seleccionar el camino mas corto para llegar al incidente mediante grafos
+- Que se asocien mas de un recurso a un incidente en función de la prioridad
+- Algoritmos de optimización
+- Encapsulación
+- Para el nivel de prioridad: logica difusa
