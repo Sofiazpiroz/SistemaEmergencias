@@ -7,3 +7,6 @@ A mejorar:
 - Algoritmos de optimización
 - Encapsulación
 - Para el nivel de prioridad: logica difusa
+
+PROBLEMAS:
+- Al haber asignado 2 recursos por tipo de recurso por incidente, no salta la opcion de que no haya recursos disponibles
