@@ -1,10 +1,13 @@
-
 import simpy # Para crear y gestionar el entorno de simulación
 import pandas as pd  # Para analizar y manipular los datos de simulación
 import os # Para trabajar con rutas de archivos
 from modules.methods import generador_incidentes # Función que genera los incidentes
 from modules.methods import generador_incidentes, estadisticas # Estadisticas para guardar y analizar datos
+from modules.methods import mostrar_disponibilidad_recursos
+from modules.config import recursos
 
+
+    
 if __name__ == "__main__":
 
     env = simpy.Environment()  #Creamos el entorno de simulación con Simpy
@@ -24,6 +27,8 @@ if __name__ == "__main__":
     ruta_csv = os.path.join('estadisticas', 'estadisticas_incidentes.csv') #para mayor robustez y que siemopre funcione
     df = pd.read_csv(ruta_csv)
 
+    mostrar_disponibilidad_recursos(recursos)
+
     opcion = input("¿Desea ver un resumen de la simulación? (Y/N)\n")
     if opcion.strip().lower() == 'y': #strip por si el usuario pone espacios los elimina, y lower ignora mayúsculas y minúsculas
         print("\nRESUMEN DE LA SIMULACIÓN:")
@@ -34,5 +39,6 @@ if __name__ == "__main__":
     else: 
         print("No se mostrará el resumen")
         print("Hasta pronto")
+
 
 
