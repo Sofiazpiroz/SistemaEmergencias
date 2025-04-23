@@ -10,7 +10,9 @@ class Incidente:
 
 # Clase que representa un recurso de emergencia
 class Recurso:
-    def __init__(self, id, tipo):
+    def __init__(self, id, tipo, ubicacion):
         self.id = id # Identificador del recurso
         self.tipo = tipo  # Tipo de recurso = "Ambulancia", "Camión de Bomberos", "Policía"
         self.disponible = True # Indica si el recurso esta disponible u ocupado
+        self.ubicacion = ubicacion # Distrito al que pertenece el recurso
+
